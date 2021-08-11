@@ -1,4 +1,0 @@
-{
-    "db": "mongodb+srv://lucas:Aa1562152886@lovedb.z3lfh.mongodb.net/ItemsApi?retryWrites=true&w=majority",
-    "jwtPrivateKey": "monkAss"
-}
