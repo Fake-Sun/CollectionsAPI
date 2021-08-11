@@ -4,7 +4,8 @@
   "description": "Versión 2.0 de mi api de ropa",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "Lucas Monzón",
   "license": "ISC",
