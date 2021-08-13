@@ -6,7 +6,7 @@ Joi.objectId = require('joi-objectid')(Joi);
 
 const itemSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true},
-  properties: [{ propertyName: String, type: String || Number}]
+  properties: [{ type: String || Number}]
 })
 
 const collectionSchema = new mongoose.Schema({

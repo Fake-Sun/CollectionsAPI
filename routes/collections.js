@@ -2,14 +2,19 @@ const { validateCollection, Collection } = require('../models/collection');
 const express = require('express');
 const authenticate = require('../middleware/authenticate');
 const router = express.Router();
-const setOwner = require('../middleware/setOwner');
+const verifyOwner = require('../middleware/verifyOwner');
 
-router.get('/', setOwner, async (req, res) => {
+router.get('/', verifyOwner, async (req, res) => {
     const collections = await Collection.find({ owner: req.body.owner}).sort('name');
     res.send(collections);
 });
 
-router.post('/', [authenticate, setOwner], async (req, res) => {
+router.get('/:name', verifyOwner, async (req, res) => {
+  const collections = await Collection.find({ name: req.body.name}).sort('name');
+  res.send(collections);
+});
+
+router.post('/', [authenticate, verifyOwner], async (req, res) => {
     const { error } = validateCollection(req.body)
     if (error) return res.status(400).send(error.details[0].message);
 
@@ -22,9 +27,6 @@ router.post('/', [authenticate, setOwner], async (req, res) => {
     }
 });
 
-router.put('/:name', setOwner, async (req, res) => {
-    const collections = await Collection.find({ name: req.body.name}).sort('name');
-    res.send(collections);
-});
+
 
 module.exports = router;
