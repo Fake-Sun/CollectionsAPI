@@ -2,11 +2,15 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
-// Note: Make new mongoose schema 'item', it has a property called 'properties' as collectionSchema which stores the item in [items] if properties match.
+
+const propertySchema = new mongoose.Schema({ 
+  name: { type: String, required: true},
+  value: { type: String || Number, required: true }
+});
 
 const itemSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true},
-  properties: [{ type: String || Number}]
+  properties: [propertySchema]
 })
 
 const collectionSchema = new mongoose.Schema({
@@ -22,13 +26,20 @@ const validateCollection = collection => {
     const schema = Joi.object({
         name: Joi.string().min(3).max(255).required(),
         owner: Joi.objectId().required(),
-        properties: Joi.array().items(Joi.string()).required(),
+        properties: {
+          name: Joi.string().min(3).max(55).required(),
+          properties: {
+            name: Joi.string().min(3).max(55).required(),
+            value: Joi.number().string()
+          }
+        },
         items: Joi.array().required()
     });
     return schema.validate(collection);
 };
 
 const validateItem = collection => {
+  const schema = Joi.object( )
 }
 
 module.exports.Collection = Collection;

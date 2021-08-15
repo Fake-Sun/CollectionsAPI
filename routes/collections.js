@@ -27,6 +27,10 @@ router.post('/', [authenticate, verifyOwner], async (req, res) => {
     }
 });
 
+router.put('/:name', [authenticate, verifyOwner], async (req, res) => {
+  const { error } = validateCollection(req.body)
+});
+
 
 
 module.exports = router;
