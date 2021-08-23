@@ -28,7 +28,14 @@ router.post('/', [authenticate, verifyOwner], async (req, res) => {
 });
 
 router.put('/:name', [authenticate, verifyOwner], async (req, res) => {
-  const { error } = validateCollection(req.body)
+    const { error } = validateCollection(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    try {
+      const collect
+    } catch (error) {
+      
+    }
 });
 
 
