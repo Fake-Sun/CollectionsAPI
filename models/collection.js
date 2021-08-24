@@ -26,20 +26,16 @@ const validateCollection = collection => {
     const schema = Joi.object({
         name: Joi.string().min(3).max(255).required(),
         owner: Joi.objectId().required(),
-        properties: {
-          name: Joi.string().min(3).max(55).required(),
-          properties: {
-            name: Joi.string().min(3).max(55).required(),
-            value: Joi.number().string()
-          }
-        },
+        properties: Joi.array().items(Joi.string()),
         items: Joi.array().required()
     });
     return schema.validate(collection);
 };
 
-const validateItem = collection => {
-  const schema = Joi.object( )
+const validateItem = item => {
+  const schema = Joi.object({
+
+  })
 }
 
 module.exports.Collection = Collection;
