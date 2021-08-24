@@ -6,11 +6,9 @@
     const token = req.header('x-auth-token');
     if(!token) return res.status(401).send('Access denied. No token provided');
 
-    req.body.owner = jwt.verify(token, config.get('jwtPrivateKey'))._id;
-    next();
-
     try {
       const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
+      req.body.owner = decoded._id;
       req.user = decoded;
       next();
   } catch (error) {

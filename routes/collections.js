@@ -10,7 +10,7 @@ router.get('/', verifyOwner, async (req, res) => {
 });
 
 router.get('/:name', verifyOwner, async (req, res) => {
-  const collections = await Collection.find({ name: req.body.name}).sort('name');
+  const collections = await Collection.find({ name: req.body.name});
   res.send(collections);
 });
 
@@ -28,13 +28,16 @@ router.post('/', [authenticate, verifyOwner], async (req, res) => {
 });
 
 router.put('/:name', [authenticate, verifyOwner], async (req, res) => {
-    const { error } = validateCollection(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+
+  //Luego cambiar esto para usar los metodos de mongoose (FindByIdAndUpdate, UpdateOne, etc) para ver cuál sirve más en esta situación revisando la doc.
 
     try {
-      const collect
+      const collection = await Collection.find({ name: req.body.name });
+      const items = collection.items;
+      console.log(items);
+      res.send(200);
     } catch (error) {
-      
+      await res.status(400).send(error.message);
     }
 });
 

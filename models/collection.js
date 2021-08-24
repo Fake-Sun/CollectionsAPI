@@ -9,12 +9,12 @@ const propertySchema = new mongoose.Schema({
 });
 
 const itemSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true},
+  name: { type: String, required: true },
   properties: [propertySchema]
 })
 
 const collectionSchema = new mongoose.Schema({
-    name: { type: String, required: true, unique: true},
+    name: { type: String, required: true},
     owner: { type: String, required: true},
     properties: [String],
     items: [itemSchema]
@@ -27,7 +27,7 @@ const validateCollection = collection => {
         name: Joi.string().min(3).max(255).required(),
         owner: Joi.objectId().required(),
         properties: Joi.array().items(Joi.string()),
-        items: Joi.array().required()
+        items: Joi.array()
     });
     return schema.validate(collection);
 };
