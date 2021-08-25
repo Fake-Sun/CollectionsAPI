@@ -32,7 +32,7 @@ router.put('/:name', [authenticate, verifyOwner], async (req, res) => {
   //Luego cambiar esto para usar los metodos de mongoose (FindByIdAndUpdate, UpdateOne, etc) para ver cuál sirve más en esta situación revisando la doc.
 
     try {
-      const collection = await Collection.find({ name: req.body.name });
+      const collection = await Collection.findByIdAndUpdate({ name: req.body.name });
       const items = collection.items;
       console.log(items);
       res.send(200);
