@@ -3,14 +3,19 @@ const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
 
-const propertySchema = new mongoose.Schema({ 
+const collectionPropertySchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  dataType: { type: String || Number, required: true}
+})
+
+const itemPropertySchema = new mongoose.Schema({ 
   name: { type: String, required: true},
   value: { type: String || Number, required: true }
 });
 
 const itemSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  properties: [propertySchema]
+  properties: [itemPropertySchema]
 })
 
 const collectionSchema = new mongoose.Schema({
@@ -34,7 +39,8 @@ const validateCollection = collection => {
 
 const validateItem = item => {
   const schema = Joi.object({
-
+      name: Joi.string().min(3).max(255).required(),
+      properties: Joi.array()
   })
 }
 

@@ -1,4 +1,4 @@
-const { validateCollection, Collection } = require('../models/collection');
+const { validateCollection, Collection, validateItem } = require('../models/collection');
 const express = require('express');
 const authenticate = require('../middleware/authenticate');
 const router = express.Router();
@@ -27,20 +27,22 @@ router.post('/', [authenticate, verifyOwner], async (req, res) => {
     }
 });
 
-router.put('/:name', [authenticate, verifyOwner], async (req, res) => {
-
-  //Luego cambiar esto para usar los metodos de mongoose (FindByIdAndUpdate, UpdateOne, etc) para ver cuál sirve más en esta situación revisando la doc.
+router.put('/:id', [authenticate, verifyOwner], async (req, res) => {
+  const { error } = validateCollection(req.body)
+  if (error) return res.status(400).send(error.details[0].message);
 
     try {
-      const collection = await Collection.findByIdAndUpdate({ name: req.body.name });
-      const items = collection.items;
-      console.log(items);
-      res.send(200);
+      const collection = await Collection.findByIdAndUpdate( req.params.id,
+        { 
+          name: req.body.name,
+          owner: req.body.owner,
+          properties: req.body.properties,
+          items: req.body.items
+        });
+      res.send(collection);
     } catch (error) {
       await res.status(400).send(error.message);
     }
 });
-
-
 
 module.exports = router;
