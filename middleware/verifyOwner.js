@@ -11,7 +11,7 @@
       req.body.owner = decoded._id;
       req.user = decoded;
       next();
-  } catch (error) {
+    } catch (error) {
       res.status(400).send('Invalid token.');
   }
- }
+}
