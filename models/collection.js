@@ -3,9 +3,21 @@ const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
 
+const collectionSchema = new mongoose.Schema({
+    name: { type: String, required: true},
+    owner: { type: String, required: true},
+    properties: [String],
+    items: [itemSchema]
+});
+
 const collectionPropertySchema = new mongoose.Schema({
   name: { type: String, required: true },
   dataType: { type: String || Number, required: true}
+})
+
+const itemSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  properties: [itemPropertySchema]
 })
 
 const itemPropertySchema = new mongoose.Schema({ 
@@ -13,17 +25,6 @@ const itemPropertySchema = new mongoose.Schema({
   value: { type: String || Number, required: true }
 });
 
-const itemSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  properties: [itemPropertySchema]
-})
-
-const collectionSchema = new mongoose.Schema({
-    name: { type: String, required: true},
-    owner: { type: String, required: true},
-    properties: [String],
-    items: [itemSchema]
-});
 
 const Collection = new mongoose.model('Collection', collectionSchema);
 
