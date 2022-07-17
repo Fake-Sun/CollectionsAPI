@@ -2,12 +2,6 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
-// Note: Make new mongoose schema 'item', it has a property called 'properties' as collectionSchema which stores the item in [items] if properties match.
-
-const itemSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true},
-  properties: [{ propertyName: String, type: String || Number}]
-})
 
 const collectionSchema = new mongoose.Schema({
     name: { type: String, required: true, unique: true},
