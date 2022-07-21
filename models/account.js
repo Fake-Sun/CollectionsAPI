@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
+const { collectionSchema } = require('./collection');
 
 const accountSchema = new mongoose.Schema({
     username: { 
@@ -21,6 +22,7 @@ const accountSchema = new mongoose.Schema({
         minlength: 3,
         maxlength: 255
     },
+    collections: [collectionSchema],
     isLogged: Boolean
 });
 

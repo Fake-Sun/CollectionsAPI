@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 
 router.get('/user', auth, async (req, res) => {
+    console.log(req.user);
     const user = await Account.findById(req.user._id).select('-password')
     res.send(user)
 });
@@ -25,6 +26,7 @@ router.post('/user', async (req, res) => {
     await user.save();
 
     const token = jwt.sign({ _id: user._id }, config.get('jwtPrivateKey'));
-    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'username', 'email']))
-})
+    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'username', 'email', 'collections']))
+});
+
 module.exports = router;

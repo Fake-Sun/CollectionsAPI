@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
 
-const objectSchema = new mongoose.Schema({
+const objSchema = new mongoose.Schema({
     name: { 
         type: String, 
         required: true,
@@ -19,7 +19,7 @@ const objectSchema = new mongoose.Schema({
   }]
 });
 
-const Object = new mongoose.Model('Object', objectSchema);
+const Item = new mongoose.model('Item', objSchema);
 
 const validateObject = object => {
   const schema = Joi.object({
@@ -30,3 +30,6 @@ const validateObject = object => {
   return schema.validate(object);
 };
 
+module.exports.Item = Item;
+module.exports.objSchema = objSchema;
+module.exports.validateObject = validateObject;
