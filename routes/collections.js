@@ -15,6 +15,13 @@ router.get('/:id', auth, async (req, res) => {
     res.send(collection);
 });
 
+router.get('/', auth, async (req, res) => {
+    const account = await Account.findById(req.account._id);
+    if(!account) return res.status(404).send('Account does not exist.');
+
+    res.send(account.collections);
+});
+
 router.post('/', [auth, validate(validateCollection)], async (req, res) => {
     const account = await Account.findById(req.account._id);
     if(!account) return res.status(404).send('Account does not exist.');
@@ -43,7 +50,7 @@ router.put('/:id', [auth, validate(validateCollection)], async (req, res) => {
     res.send(account);
 });
 
-router.delete("/:id", auth, async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     const account = await Account.findById(req.account._id);
     if(!account) return res.status(404).send('Account does not exist.');
 

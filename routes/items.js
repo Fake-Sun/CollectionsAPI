@@ -2,7 +2,7 @@ const { validateCollection } = require('../models/collection');
 const { validateItem } = require('../models/item');
 const express = require('express');
 const auth = require('../middleware/authenticate');
-const router = express.Router();
+const router = express.Router({ mergeParams: true});
 const { Account } = require('../models/account');
 const validate = require('../middleware/validate');
 
@@ -16,16 +16,15 @@ router.get('/', auth, async (req, res) => {
     res.send(collection.items);
 });
 
-router.post('/:id/items', [auth, validate(validateItem)], async (req, res) => {
+router.post('/', [auth, validate(validateItem)], async (req, res) => {
     const account = await Account.findById(req.account._id);
     if(!account) return res.status(404).send('Account does not exist.');
 
     const collection = account.collections.id(req.params.id);
     if (!collection) return res.status(404).send('Collection does not exist.');
 
-    const item = req.body;
-
-    for(itemProperty of item.properties) {
+    
+    for(itemProperty of req.body.properties) {
         let propertyMatch = false;
         
         for(collectionProperty of collection.properties) {
@@ -38,9 +37,24 @@ router.post('/:id/items', [auth, validate(validateItem)], async (req, res) => {
         }
     }
 
-    collection.items.push(item);
+    collection.items.push(req.body);
     const savedCollection = await Account.findByIdAndUpdate(req.account._id, { collections: account.collections }, {new: true});
     res.send(savedCollection);
+});
+
+router.delete('/:itemId', auth, async (req, res) => {
+    const account = await Account.findById(req.account._id);
+    if(!account) return res.status(404).send('Account does not exist.');
+
+    const collection = account.collections.id(req.params.id);
+    if (!collection) return res.status(404).send('Collection does not exist.');
+
+    const item = collection.items.id(req.params.itemId);
+    if(!item) return res.status(404).send('Item does not exist or ID is incorrect');
+
+    item.remove();
+    const savedAcc = await Account.findByIdAndUpdate(req.account._id, { collections: account.collections }, {new: true});
+    res.send(savedAcc);
 });
 
 module.exports = router;

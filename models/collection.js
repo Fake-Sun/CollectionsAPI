@@ -8,8 +8,6 @@ const collectionSchema = new mongoose.Schema({
   items: [itemSchema],
 });
 
-const Collection = new mongoose.model("Collection", collectionSchema);
-
 const validateCollection = (collection) => {
   const schema = Joi.object({
     name: Joi.string().min(3).max(255).required(),
@@ -19,6 +17,5 @@ const validateCollection = (collection) => {
   return schema.validate(collection);
 };
 
-module.exports.Collection = Collection;
 module.exports.validateCollection = validateCollection;
 module.exports.collectionSchema = collectionSchema;

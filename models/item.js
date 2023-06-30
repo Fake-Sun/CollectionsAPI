@@ -18,8 +18,6 @@ const itemSchema = new mongoose.Schema({
     }
 });
 
-const Item = new mongoose.model('Item', itemSchema);
-
 const itemValidSchema = Joi.object({
     name: Joi.string().min(3).max(255).required(),
     description: Joi.string().min(3).max(255).required(),
@@ -30,7 +28,6 @@ const validateItem = object => {
   return itemValidSchema.validate(object);
 };
 
-module.exports.Item = Item;
 module.exports.itemSchema = itemSchema;
 module.exports.validateItem = validateItem;
 module.exports.itemValidSchema = itemValidSchema;

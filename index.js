@@ -8,7 +8,7 @@ require('./startup/db')();
 app.use(express.json());
 app.use('/api/account', account);
 app.use('/api/collections', collections);
-app.use('/api/:id/items', items)
+app.use('/api/:id/items', items);
 
 const port = process.env.PORT || 3000;
-const server = app.listen(port, console.log(`Escuchando en el puerto ${port}`));
+app.listen(port, console.log(`Escuchando en el puerto ${port}`));
