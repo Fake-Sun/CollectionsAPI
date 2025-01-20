@@ -28,7 +28,7 @@ router.post('/', [auth, validate(validateItem)], async (req, res) => {
         let propertyMatch = false;
         
         for(collectionProperty of collection.properties) {
-            if(collectionProperty === itemProperty.name) propertyMatch = true;
+            if(collectionProperty === itemProperty.name) propertyMatch = true;  
         }
 
         if(propertyMatch === false) {

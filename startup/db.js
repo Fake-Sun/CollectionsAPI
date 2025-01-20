@@ -2,8 +2,12 @@ const config = require('config');
 const db = config.get('db');
 const mongoose = require('mongoose');
 
-module.exports = function() {
+module.exports = async function() {
     mongoose.set("strictQuery", true);
-    mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true});
-    console.log('Connected to DB');
+    try {
+        await mongoose.connect(db);
+        console.log('Connected to DB');
+    } catch (error) {
+        console.log(error);
+    }
 }
